@@ -1,5 +1,6 @@
 package chet;
 
+//規則
 public class Rule {
 	Chess[] allChess;
 	Player p1, p2;
@@ -11,7 +12,7 @@ public class Rule {
 	}
 
 	public void isMove(Chess c, Coordinate coo) {
-		int eatCheck = 0;// 判斷是否是吃棋
+		int eatCheck = 0;// 判斷移動位子上是否有棋，有的話則移到吃棋
 		for (int i = 0; i < allChess.length; i++) {
 			if (allChess[i].getCoordinate().toString().equals(coo.toString())) {
 				isEat(c, allChess[i]);
@@ -32,9 +33,9 @@ public class Rule {
 	}
 
 	public void isEat(Chess a, Chess b) {
+		int x = a.getCoordinate().getX() - b.getCoordinate().getX();
+		int y = a.getCoordinate().getY() - b.getCoordinate().getY();
 		if (a.getWeight() == 2) {
-			int x = a.getCoordinate().getX() - b.getCoordinate().getX();
-			int y = a.getCoordinate().getY() - b.getCoordinate().getY();
 			if (x != 0 && y != 0) {
 				System.out.println("不能吃");
 			} else {
@@ -79,32 +80,36 @@ public class Rule {
 				}
 				if (number == 1) {
 					a.setCoordinate(b.getCoordinate());
-					b.setState(3);
-					b.setCoordinate(new Coordinate(1000, 1000));
+					b.setState(2);//改為死亡
+					b.setCoordinate(new Coordinate(1000, 1000));//移出棋盤
 					isVictory();
 				}
 			}
-		} else if (a.getWeight() >= b.getWeight()) {
-			a.setCoordinate(b.getCoordinate());
-			b.setState(3);
-			b.setCoordinate(new Coordinate(1000, 1000));
-		} else if (a.getWeight() == 0 && b.getWeight() == 6) {
-			a.setCoordinate(b.getCoordinate());
-			b.setState(3);
-			b.setCoordinate(new Coordinate(1000, 1000));
+		} else if (x >= -1 && x <= 1 && y >= -1 && y <= -1) {
+			if (a.getWeight() >= b.getWeight()) {
+				a.setCoordinate(b.getCoordinate());
+				b.setState(2);//改為死亡
+				b.setCoordinate(new Coordinate(1000, 1000));//移出棋盤
+			} else if (a.getWeight() == 0 && b.getWeight() == 6) {
+				a.setCoordinate(b.getCoordinate());
+				b.setState(2);//改為死亡
+				b.setCoordinate(new Coordinate(1000, 1000));//移出棋盤
+			} else {
+				System.out.println("不能吃");
+			}
 		} else {
 			System.out.println("不能吃");
 		}
 	}
 
-	public void isVictory() {
+	public void isVictory() {//找尋是否一方有存活棋子
 		int p1Chess = 0;
 		int p2Chess = 0;
 		for (int i = 0; i < allChess.length; i++) {
-			if (allChess[i].getPlayer().toString().equals(p1)) {
+			if (allChess[i].getPlayer().toString().equals(p1)&&allChess[i].getState()!=2) {
 				p1Chess++;
 			}
-			if (allChess[i].getPlayer().toString().equals(p2)) {
+			if (allChess[i].getPlayer().toString().equals(p2)&&allChess[i].getState()!=2) {
 				p2Chess++;
 			}
 		}

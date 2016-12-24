@@ -1,5 +1,5 @@
 package chet;
-
+//¦ì¸m®y¼Ð
 public class Coordinate {
 	int x, y;
 

@@ -28,14 +28,13 @@ public class Chess {
 	}
 	
 	
-	public void setState(int s){
+	public void setState(int s){//ª¬ºA 0:¥¼Â½ 1:¤wÂ½ 2:¦º¤`
 		this.state=s;
 	}
 
 	public void setCoordinate(Coordinate c){
 		this.c=c;
-		this.setChanged();
-		this.notifyObservers(c);
+		
 	}
 	
 	public String getName() {

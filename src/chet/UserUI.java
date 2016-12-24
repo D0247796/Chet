@@ -52,9 +52,7 @@ public class UserUI {
 		
 		Game game = new Game(allChess,p1,p2);
 		
-		for (int i = 0; i < allChess.length; i++) {
-			allChess[i].addObserver(game);
-		}
+		
 
 	}
 
