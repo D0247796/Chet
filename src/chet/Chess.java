@@ -1,6 +1,7 @@
 package chet;
 
-public class Chess extends java.util.Observable{
+
+public class Chess {
 	String name;
 	Player player;
 	int weight;

@@ -8,6 +8,7 @@ public class UserUI {
 		Player p1 = new Player("p1");
 		Player p2 = new Player("p2");
 		Chess[] allChess = new Chess[32];
+		
 		for(int i=0;i<5;i++){
 			allChess[i]=new Chess("卒",0,p1);
 		}
@@ -49,9 +50,11 @@ public class UserUI {
 		
 		allChess[15]=new Chess("帥",6,p1);
 		
-		Game r = new Game(allChess,p1,p2);
+		Game game = new Game(allChess,p1,p2);
 		
-		
+		for (int i = 0; i < allChess.length; i++) {
+			allChess[i].addObserver(game);
+		}
 
 	}
 

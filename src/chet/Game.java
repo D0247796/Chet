@@ -2,7 +2,7 @@ package chet;
 
 import java.util.Observable;
 
-public class Game implements java.util.Observer{
+public class Game {
 	Rule rule;
 	Chess[] allChess;
 	Player p1,p2;
@@ -11,9 +11,6 @@ public class Game implements java.util.Observer{
 		this.p1=p1;
 		this.p2=p2;
 		rule=new Rule(allChess,p1,p2);
-	}
-	public void update(Observable arg0, Object state) {
-		rule.isVictory();
 	}
 	
 	public void change(Chess c,Coordinate coo){
