@@ -1,4 +1,5 @@
 package chet;
+
 //¦ì¸m®y¼Ð
 public class Coordinate {
 	private int x, y;
@@ -28,9 +29,9 @@ public class Coordinate {
 	public int getY() {
 		return y;
 	}
-	
-	public String toString(){
-		return "("+x+","+y+")";
+
+	public String toString() {
+		return "(" + x + "," + y + ")";
 	}
 
 }

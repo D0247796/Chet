@@ -24,9 +24,17 @@ public class ChessBoard implements java.util.Observer {
 	private Game game;
 	private Chess moveChess;// 按下去的按鈕
 	private int gameStart = 0;// 是否剛開始
+	private static ChessBoard singleChessBoard=null;//singleton
+	
+	public static ChessBoard instance(Game game){
+		if(singleChessBoard==null){
+			singleChessBoard=new ChessBoard(game);
+		}
+		return singleChessBoard;
+	}
 
-	public ChessBoard(Game game) {
-
+	private ChessBoard(Game game) {
+		//介面創造
 		this.game = game;
 		game.getRule().addObserver(this);
 		jFrame = new JFrame("Board");
@@ -41,7 +49,7 @@ public class ChessBoard implements java.util.Observer {
 		Random random = new Random();
 		int a[] = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
 				25, 26, 27, 28, 29, 30, 31 };
-		for (int i = 0; i < a.length; i++) { // 洗牌
+		for (int i = 0; i < a.length; i++) { // Chess洗牌
 			int index = random.nextInt(32);
 			int tmp = a[index];
 			a[index] = a[i];
@@ -52,7 +60,7 @@ public class ChessBoard implements java.util.Observer {
 			for (int j = 0; j < jButtons[i].length; j++) {
 				JButton button = new MyButton(new Coordinate(j, i));
 				((MyButton) button).setChess(game.getAllChess()[a[b]]);// Button中的Chess
-				game.getAllChess()[a[b]].setCoordinate(((MyButton) button).getMyCoordinate());// 更改Chess座標
+				game.getAllChess()[a[b]].setCoordinate(((MyButton) button).getMyCoordinate());// 設定Chess座標
 				b++;
 
 				button.setMargin(new Insets(0, 0, 0, 0));
@@ -62,7 +70,7 @@ public class ChessBoard implements java.util.Observer {
 				button.setText("覆蓋中");
 
 				try {
-					Image icon = ImageIO.read(new File("bin/images/RedPawn.png"));// ?
+					Image icon = ImageIO.read(new File("bin/images/RedPawn.png"));// ?我不懂，別人打的
 					button.setIcon(new ImageIcon(icon));
 				} catch (Exception e) {
 
@@ -79,20 +87,20 @@ public class ChessBoard implements java.util.Observer {
 							System.out.println("玩家顏色已確定");
 							button.setText(button.getName());
 							gameStart++;
-						} else if (((MyButton) button).getChess() == null && moveChess == null) {
+						} else if (((MyButton) button).getChess() == null && moveChess == null) {//選到空白處時觸發
 							System.out.println("請選澤棋子");
 						} else if (((MyButton) button).getChess() != null
-								&& ((MyButton) button).getChess().getState() == 0 && moveChess == null) {
+								&& ((MyButton) button).getChess().getState() == 0 && moveChess == null) {//翻棋子
 							button.setText(button.getName());
 							((MyButton) button).getChess().setState(1);
 							System.out.println(game.whoPlay().getName() + "翻出了" + button.getName());
 							game.changePlayer();
 						} else if (moveChess == null && ((MyButton) button).getChess().getPlayer().toString()
-								.equals(game.whoPlay().toString())) {
+								.equals(game.whoPlay().toString())) {//選澤棋子
 							System.out.println(game.whoPlay().getName() + "選擇了" + button.getName());
 							moveChess = ((MyButton) button).getChess();
 
-						} else if (moveChess != null) {
+						} else if (moveChess != null) {//移動或吃棋子
 							int a = ((MyButton) button).getMyCoordinate().getX() - moveChess.getCoordinate().getX();
 							int b = ((MyButton) button).getMyCoordinate().getY() - moveChess.getCoordinate().getY();
 							if (((MyButton) button).getChess() == null
@@ -147,7 +155,7 @@ public class ChessBoard implements java.util.Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object arg) {//刷新介面
 		game.changePlayer();
 		for (int i = 0; i < jButtons.length; i++) {
 			for (int j = 0; j < jButtons[i].length; j++) {
