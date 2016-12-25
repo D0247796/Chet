@@ -13,6 +13,10 @@ public class Game {
 		rule=new Rule(allChess,p1,p2);
 	}
 	
+	public Chess[] getAllChess(){
+		return allChess;
+	}
+	
 	public void change(Chess c,Coordinate coo){
 		rule.isMove(c, coo);
 	}
