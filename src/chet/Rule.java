@@ -2,8 +2,8 @@ package chet;
 
 //規則
 public class Rule extends java.util.Observable {
-	Chess[] allChess;
-	Player p1, p2;
+	private Chess[] allChess;
+	private Player p1, p2;
 
 	public Rule(Chess[] allChess, Player p1, Player p2) {
 		this.allChess = allChess;
@@ -29,6 +29,7 @@ public class Rule extends java.util.Observable {
 				c.setCoordinate(coo);
 				this.setChanged();
 				this.notifyObservers();
+				
 			} else {
 				System.out.println("超過移動範圍");
 			}
@@ -42,11 +43,10 @@ public class Rule extends java.util.Observable {
 		System.out.println(a.getPlayer().toString()+b.getPlayer().toString());
 		if (a.getWeight() == 2 && !a.getPlayer().toString().equals(b.getPlayer().toString())) {
 			if (x != 0 && y != 0) {
-				System.out.println("不能吃");
+				System.out.println("違反規定，不能吃");
 			} else {
 				int number = 0;
 				if (x == 0 && y > 0) {
-					System.out.println("2eat1");
 					// 尋找路鏡中是否有棋子
 					for (int i = a.getCoordinate().getY() - 1; i > b.getCoordinate().getY(); i--) {
 						Coordinate coo = new Coordinate(a.getCoordinate().getX(), i);
@@ -57,7 +57,6 @@ public class Rule extends java.util.Observable {
 						}
 					}
 				} else if (x == 0 && y < 0) {
-					System.out.println("2eat2");
 					for (int i = a.getCoordinate().getY() + 1; i < b.getCoordinate().getY(); i++) {
 						Coordinate coo = new Coordinate(a.getCoordinate().getX(), i);
 						for (int j = 0; j < allChess.length; j++) {
@@ -67,7 +66,6 @@ public class Rule extends java.util.Observable {
 						}
 					}
 				} else if (y == 0 && x > 0) {
-					System.out.println("2eat3");
 					for (int i = a.getCoordinate().getX() - 1; i > b.getCoordinate().getX(); i--) {
 						Coordinate coo = new Coordinate(i, a.getCoordinate().getY());
 						for (int j = 0; j < allChess.length; j++) {
@@ -77,7 +75,6 @@ public class Rule extends java.util.Observable {
 						}
 					}
 				} else if (y == 0 && x < 0) {
-					System.out.println("2eat4");
 					for (int i = a.getCoordinate().getX() + 1; i < b.getCoordinate().getX(); i++) {
 						Coordinate coo = new Coordinate(i, a.getCoordinate().getY());
 						for (int j = 0; j < allChess.length; j++) {
@@ -97,12 +94,12 @@ public class Rule extends java.util.Observable {
 					this.setChanged();
 					this.notifyObservers();
 				} else {
-					System.out.println("炮不能吃");
+					System.out.println("違反規定，不能吃");
 				}
 			}
 		} else if ((x == 0 || y == 0) && (x > -2 && x < 2 && y > -2 && y < 2) && !a.getPlayer().toString().equals(b.getPlayer().toString())) {
 			if (a.getWeight() >= b.getWeight()) {
-				System.out.println("吃了1");
+				System.out.println(a.getName()+"吃了"+b.getName());
 				a.setCoordinate(b.getCoordinate());
 				b.setState(2);// 改為死亡
 				b.setCoordinate(new Coordinate(1000, 1000));// 移出棋盤
@@ -110,7 +107,7 @@ public class Rule extends java.util.Observable {
 				this.setChanged();
 				this.notifyObservers();
 			} else if (a.getWeight() == 0 && b.getWeight() == 6) {
-				System.out.println("吃了2");
+				System.out.println(a.getName()+"吃了"+b.getName());
 				a.setCoordinate(b.getCoordinate());
 				b.setState(2);// 改為死亡
 				b.setCoordinate(new Coordinate(1000, 1000));// 移出棋盤
@@ -118,7 +115,7 @@ public class Rule extends java.util.Observable {
 				this.setChanged();
 				this.notifyObservers();
 			} else if ( b.getWeight() == 2) {
-				System.out.println("吃了3");
+				System.out.println(a.getName()+"吃了"+b.getName());
 				a.setCoordinate(b.getCoordinate());
 				b.setState(2);// 改為死亡
 				b.setCoordinate(new Coordinate(1000, 1000));// 移出棋盤
@@ -126,11 +123,11 @@ public class Rule extends java.util.Observable {
 				this.setChanged();
 				this.notifyObservers();
 			}else {
-				System.out.println("不能吃");
+				System.out.println("違反規定，不能吃");
 			}
 		} else {
 
-			System.out.println(x + "/" + y + "不能吃.");
+			System.out.println("違反規定，不能吃");
 		}
 	}
 
@@ -150,7 +147,7 @@ public class Rule extends java.util.Observable {
 		}else  if (p2Chess == 0) {
 			System.out.println("p1勝利");
 		} else {
-			System.out.println("還沒喔");
+			System.out.println("還沒分出勝負，再努力點!");
 		}
 
 	}

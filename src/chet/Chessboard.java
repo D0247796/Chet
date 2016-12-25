@@ -18,16 +18,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class ChessBoard implements java.util.Observer{
+public class ChessBoard implements java.util.Observer {
 	private JFrame jFrame;
 	private JButton[][] jButtons;
 	private Game game;
 	private Chess moveChess;// 按下去的按鈕
-	
+	private int gameStart = 0;// 是否剛開始
 
-	public ChessBoard(Game game){
+	public ChessBoard(Game game) {
+
 		this.game = game;
-		game.rule.addObserver(this);
+		game.getRule().addObserver(this);
 		jFrame = new JFrame("Board");
 		GridLayout gridLayout = new GridLayout(4, 8);
 		JPanel jPanel = new JPanel(gridLayout);
@@ -58,7 +59,7 @@ public class ChessBoard implements java.util.Observer{
 
 				button.setBorder(new LineBorder(Color.BLACK));// 按鈕邊線
 				button.setBackground(Color.WHITE);// 按鈕底色
-				button.setText(button.getName());
+				button.setText("覆蓋中");
 
 				try {
 					Image icon = ImageIO.read(new File("bin/images/RedPawn.png"));// ?
@@ -70,13 +71,41 @@ public class ChessBoard implements java.util.Observer{
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (moveChess == null) {
+						if (gameStart == 0) {// 剛開始確定哪一方為優先方
+							game.isPlayer(((MyButton) button).getChess().getPlayer());
+							System.out.println(game.whoPlay().getName() + "翻出了" + button.getName());
+							game.changePlayer();
+							((MyButton) button).getChess().setState(1);
+							System.out.println("玩家顏色已確定");
+							button.setText(button.getName());
+							gameStart++;
+						} else if (((MyButton) button).getChess() == null && moveChess == null) {
+							System.out.println("請選澤棋子");
+						} else if (((MyButton) button).getChess() != null
+								&& ((MyButton) button).getChess().getState() == 0 && moveChess == null) {
+							button.setText(button.getName());
+							((MyButton) button).getChess().setState(1);
+							System.out.println(game.whoPlay().getName() + "翻出了" + button.getName());
+							game.changePlayer();
+						} else if (moveChess == null && ((MyButton) button).getChess().getPlayer().toString()
+								.equals(game.whoPlay().toString())) {
+							System.out.println(game.whoPlay().getName() + "選擇了" + button.getName());
 							moveChess = ((MyButton) button).getChess();
-							
-						} else  {
-							game.change(moveChess,  ((MyButton) button).getMyCoordinate());
-							moveChess=null;
 
+						} else if (moveChess != null) {
+							int a = ((MyButton) button).getMyCoordinate().getX() - moveChess.getCoordinate().getX();
+							int b = ((MyButton) button).getMyCoordinate().getY() - moveChess.getCoordinate().getY();
+							if (((MyButton) button).getChess() == null
+									|| ((MyButton) button).getChess().getState() == 1) {
+								game.change(moveChess, ((MyButton) button).getMyCoordinate());
+								button.setText(button.getName());
+								((MyButton) button).getChess().setState(1);
+							} else {
+								System.out.println("請重新選擇");
+							}
+							moveChess = null;
+						} else {
+							System.out.println("請選擇自己的棋子");
 						}
 
 					}
@@ -119,21 +148,26 @@ public class ChessBoard implements java.util.Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		game.changePlayer();
 		for (int i = 0; i < jButtons.length; i++) {
 			for (int j = 0; j < jButtons[i].length; j++) {
-				for(int k = 0; k<game.getAllChess().length;k++){
-					if(((MyButton)jButtons[i][j]).getMyCoordinate().equals(game.getAllChess()[k].getCoordinate())){
-						((MyButton)jButtons[i][j]).setChess(game.getAllChess()[k]);
-						jButtons[i][j].setText(((MyButton)jButtons[i][j]).getName());
+				for (int k = 0; k < game.getAllChess().length; k++) {
+					if (((MyButton) jButtons[i][j]).getMyCoordinate().equals(game.getAllChess()[k].getCoordinate())) {
+						((MyButton) jButtons[i][j]).setChess(game.getAllChess()[k]);
+						if (((MyButton) jButtons[i][j]).getChess().getState() == 1) {
+							jButtons[i][j].setText(((MyButton) jButtons[i][j]).getName());
+						} else if (((MyButton) jButtons[i][j]).getChess().getState() == 0) {
+							jButtons[i][j].setText("覆蓋中");
+						}
 						break;
-					}else{
-						((MyButton)jButtons[i][j]).setChess(null);
+					} else {
+						((MyButton) jButtons[i][j]).setChess(null);
 						jButtons[i][j].setText(null);
 					}
 				}
 			}
 		}
-		
+
 	}
 
 }

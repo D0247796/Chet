@@ -2,11 +2,11 @@ package chet;
 
 
 public class Chess {
-	String name;
-	Player player;
-	int weight;
-	int state=0;
-	Coordinate c;
+	private String name;
+	private Player player;
+	private int weight;
+	private int state=0;
+	private Coordinate c;
 
 	public Chess(String name,int weight, Player player) {
 		this.name=name;

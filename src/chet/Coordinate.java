@@ -1,7 +1,7 @@
 package chet;
 //¦ì¸m®y¼Ð
 public class Coordinate {
-	int x, y;
+	private int x, y;
 
 	public Coordinate(int x, int y) {
 		this.x = x;
