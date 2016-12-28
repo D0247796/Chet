@@ -7,7 +7,7 @@ interface AbstractRule {
 
 	public void isVictory();
 }
-//³W«h
+//è¦å‰‡
 public class Rule extends java.util.Observable implements AbstractRule {
 	private Chess[] allChess;
 	private Player p1, p2;
@@ -28,11 +28,11 @@ public class Rule extends java.util.Observable implements AbstractRule {
 
 	public void isMove(Chess c, Coordinate coo) {
 		int eatCheck = 0;
-		if (c.getCoordinate().toString().equals(coo.toString())) {//Á×§K­«½Æ«ö¦b¦P¤@´Ñ¤l
-			System.out.println("½Ğ¤Å­«½ÆÂI¡A¨Ã­«·s¨Ó¹L");
+		if (c.getCoordinate().toString().equals(coo.toString())) {//é¿å…é‡è¤‡æŒ‰åœ¨åŒä¸€æ£‹å­
+			System.out.println("è«‹å‹¿é‡è¤‡é»ï¼Œä¸¦é‡æ–°ä¾†é");
 			eatCheck = 1;
 		} else {
-			for (int i = 0; i < allChess.length; i++) {// §PÂ_²¾°Ê¦ì¤l¤W¬O§_¦³´Ñ¡A¦³ªº¸Ü«h²¾¨ì¦Y´Ñ
+			for (int i = 0; i < allChess.length; i++) {// åˆ¤æ–·ç§»å‹•ä½å­ä¸Šæ˜¯å¦æœ‰æ£‹ï¼Œæœ‰çš„è©±å‰‡ç§»åˆ°åƒæ£‹
 				if (allChess[i].getCoordinate().toString().equals(coo.toString())) {
 					isEat(c, allChess[i]);
 					eatCheck = 1;
@@ -41,31 +41,31 @@ public class Rule extends java.util.Observable implements AbstractRule {
 
 			}
 		}
-		if (eatCheck == 0) {//²¾°Ê
+		if (eatCheck == 0) {//ç§»å‹•
 			int a = coo.getX() - c.getCoordinate().getX();
 			int b = coo.getY() - c.getCoordinate().getY();
 			if ((a <= 1 && a >= -1 && b <= 1 && b >= -1) && (a == 0 || b == 0)) {
 				c.setCoordinate(coo);
-				System.out.println("²¾°Ê¤F"+c.getName());
+				System.out.println("ç§»å‹•äº†"+c.getName());
 				this.setChanged();
 				this.notifyObservers();
 
 			} else {
-				System.out.println("¶W¹L²¾°Ê½d³ò");
+				System.out.println("è¶…éç§»å‹•ç¯„åœ");
 			}
 		}
 
 	}
 
-	public void isEat(Chess a, Chess b) {//¦Y
+	public void isEat(Chess a, Chess b) {//åƒ
 		int x = a.getCoordinate().getX() - b.getCoordinate().getX();
 		int y = a.getCoordinate().getY() - b.getCoordinate().getY();
-		if (a.getWeight() == 2 && !a.getPlayer().toString().equals(b.getPlayer().toString())) {//¬¶ªº¦Yªk¸ò¤£¯à¦Y¦P¶¤
+		if (a.getWeight() == 2 && !a.getPlayer().toString().equals(b.getPlayer().toString())) {//ç‚®çš„åƒæ³•è·Ÿä¸èƒ½åƒåŒéšŠ
 			if (x != 0 && y != 0) {
-				System.out.println("¹H¤Ï³W©w¡A¤£¯à¦Y");
+				System.out.println("é•åè¦å®šï¼Œä¸èƒ½åƒ");
 			} else {
 				int number = 0;
-				// ´M§ä¸ôÃè¤¤¬O§_¦³´Ñ¤l
+				// å°‹æ‰¾è·¯é¡ä¸­æ˜¯å¦æœ‰æ£‹å­
 				if (x == 0 && y > 0) {
 					for (int i = a.getCoordinate().getY() - 1; i > b.getCoordinate().getY(); i--) {
 						Coordinate coo = new Coordinate(a.getCoordinate().getX(), i);
@@ -104,53 +104,53 @@ public class Rule extends java.util.Observable implements AbstractRule {
 					}
 
 				}
-				if (number == 1) {//¦³ªº¸Ünumber·|¼W¥[¡A¥u¦³¤@­Ó«h¯à¦Y
+				if (number == 1) {//æœ‰çš„è©±numberæœƒå¢åŠ ï¼Œåªæœ‰ä¸€å€‹å‰‡èƒ½åƒ
 					a.setCoordinate(b.getCoordinate());
-					b.setState(2);// §ï¬°¦º¤`
-					b.setCoordinate(new Coordinate(1000, 1000));// ²¾¥X´Ñ½L
+					b.setState(2);// æ”¹ç‚ºæ­»äº¡
+					b.setCoordinate(new Coordinate(1000, 1000));// ç§»å‡ºæ£‹ç›¤
 					isVictory();
 					this.setChanged();
 					this.notifyObservers();
 				} else {
-					System.out.println("¹H¤Ï³W©w¡A¤£¯à¦Y");
+					System.out.println("é•åè¦å®šï¼Œä¸èƒ½åƒ");
 				}
 			}
 		} else if ((x == 0 || y == 0) && (x > -2 && x < 2 && y > -2 && y < 2)
-				&& !a.getPlayer().toString().equals(b.getPlayer().toString())) {//¨ä¾l´Ñ¤l¦Yªk®Ú¤£¯à¦Y¦P¶¤
+				&& !a.getPlayer().toString().equals(b.getPlayer().toString())) {//å…¶é¤˜æ£‹å­åƒæ³•æ ¹ä¸èƒ½åƒåŒéšŠ
 			if (a.getWeight() >= b.getWeight()) {
-				System.out.println(a.getName() + "¦Y¤F" + b.getName());
+				System.out.println(a.getName() + "åƒäº†" + b.getName());
 				a.setCoordinate(b.getCoordinate());
-				b.setState(2);// §ï¬°¦º¤`
-				b.setCoordinate(new Coordinate(1000, 1000));// ²¾¥X´Ñ½L
+				b.setState(2);// æ”¹ç‚ºæ­»äº¡
+				b.setCoordinate(new Coordinate(1000, 1000));// ç§»å‡ºæ£‹ç›¤
 				isVictory();
 				this.setChanged();
 				this.notifyObservers();
 			} else if (a.getWeight() == 0 && b.getWeight() == 6) {
-				System.out.println(a.getName() + "¦Y¤F" + b.getName());
+				System.out.println(a.getName() + "åƒäº†" + b.getName());
 				a.setCoordinate(b.getCoordinate());
-				b.setState(2);// §ï¬°¦º¤`
-				b.setCoordinate(new Coordinate(1000, 1000));// ²¾¥X´Ñ½L
+				b.setState(2);// æ”¹ç‚ºæ­»äº¡
+				b.setCoordinate(new Coordinate(1000, 1000));// ç§»å‡ºæ£‹ç›¤
 				isVictory();
 				this.setChanged();
 				this.notifyObservers();
 			} else if (b.getWeight() == 2) {
-				System.out.println(a.getName() + "¦Y¤F" + b.getName());
+				System.out.println(a.getName() + "åƒäº†" + b.getName());
 				a.setCoordinate(b.getCoordinate());
-				b.setState(2);// §ï¬°¦º¤`
-				b.setCoordinate(new Coordinate(1000, 1000));// ²¾¥X´Ñ½L
+				b.setState(2);// æ”¹ç‚ºæ­»äº¡
+				b.setCoordinate(new Coordinate(1000, 1000));// ç§»å‡ºæ£‹ç›¤
 				isVictory();
 				this.setChanged();
 				this.notifyObservers();
 			} else {
-				System.out.println("¹H¤Ï³W©w¡A¤£¯à¦Y");
+				System.out.println("é•åè¦å®šï¼Œä¸èƒ½åƒ");
 			}
 		} else {
 
-			System.out.println("¹H¤Ï³W©w¡A¤£¯à¦Y");
+			System.out.println("é•åè¦å®šï¼Œä¸èƒ½åƒ");
 		}
 	}
 
-	public void isVictory() {// §ä´M¬O§_¤@¤è¦³¦s¬¡´Ñ¤l
+	public void isVictory() {// æ‰¾å°‹æ˜¯å¦ä¸€æ–¹æœ‰å­˜æ´»æ£‹å­
 		int p1Chess = 0;
 		int p2Chess = 0;
 		for (int i = 0; i < allChess.length; i++) {
@@ -162,11 +162,11 @@ public class Rule extends java.util.Observable implements AbstractRule {
 			}
 		}
 		if (p1Chess == 0) {
-			System.out.println("p2³Ó§Q");
+			System.out.println("p2å‹åˆ©");
 		} else if (p2Chess == 0) {
-			System.out.println("p1³Ó§Q");
+			System.out.println("p1å‹åˆ©");
 		} else {
-			System.out.println("ÁÙ¨S¤À¥X³Ó­t¡A¦A§V¤OÂI!");
+			System.out.println("é‚„æ²’åˆ†å‡ºå‹è² ï¼Œå†åŠªåŠ›é»!");
 		}
 
 	}
