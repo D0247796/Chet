@@ -22,8 +22,8 @@ public class ChessBoard implements java.util.Observer {
 	private JFrame jFrame;
 	private JButton[][] jButtons;
 	private Game game;
-	private Chess moveChess;// «ö¤U¥hªº«ö¶s
-	private int gameStart = 0;// ¬O§_­è¶}©l
+	private Chess moveChess;// æŒ‰ä¸‹å»çš„æŒ‰éˆ•
+	private int gameStart = 0;// æ˜¯å¦å‰›é–‹å§‹
 	private static ChessBoard singleChessBoard=null;//singleton
 	
 	public static ChessBoard instance(Game game){
@@ -34,7 +34,7 @@ public class ChessBoard implements java.util.Observer {
 	}
 
 	private ChessBoard(Game game) {
-		//¤¶­±³Ğ³y
+		//ä»‹é¢å‰µé€ 
 		this.game = game;
 		game.getRule().addObserver(this);
 		jFrame = new JFrame("Board");
@@ -49,7 +49,7 @@ public class ChessBoard implements java.util.Observer {
 		Random random = new Random();
 		int a[] = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
 				25, 26, 27, 28, 29, 30, 31 };
-		for (int i = 0; i < a.length; i++) { // Chess¬~µP
+		for (int i = 0; i < a.length; i++) { // Chessæ´—ç‰Œ
 			int index = random.nextInt(32);
 			int tmp = a[index];
 			a[index] = a[i];
@@ -59,18 +59,18 @@ public class ChessBoard implements java.util.Observer {
 		for (int i = 0; i < jButtons.length; i++) {
 			for (int j = 0; j < jButtons[i].length; j++) {
 				JButton button = new MyButton(new Coordinate(j, i));
-				((MyButton) button).setChess(game.getAllChess()[a[b]]);// Button¤¤ªºChess
-				game.getAllChess()[a[b]].setCoordinate(((MyButton) button).getMyCoordinate());// ³]©wChess®y¼Ğ
+				((MyButton) button).setChess(game.getAllChess()[a[b]]);// Buttonä¸­çš„Chess
+				game.getAllChess()[a[b]].setCoordinate(((MyButton) button).getMyCoordinate());// è¨­å®šChessåº§æ¨™
 				b++;
 
 				button.setMargin(new Insets(0, 0, 0, 0));
 
-				button.setBorder(new LineBorder(Color.BLACK));// «ö¶sÃä½u
-				button.setBackground(Color.WHITE);// «ö¶s©³¦â
-				button.setText("ÂĞ»\¤¤");
+				button.setBorder(new LineBorder(Color.BLACK));// æŒ‰éˆ•é‚Šç·š
+				button.setBackground(Color.WHITE);// æŒ‰éˆ•åº•è‰²
+				button.setText("è¦†è“‹ä¸­");
 
 				try {
-					Image icon = ImageIO.read(new File("bin/images/RedPawn.png"));// ?§Ú¤£À´¡A§O¤H¥´ªº
+					Image icon = ImageIO.read(new File("bin/images/RedPawn.png"));// ?æˆ‘ä¸æ‡‚ï¼Œåˆ¥äººæ‰“çš„
 					button.setIcon(new ImageIcon(icon));
 				} catch (Exception e) {
 
@@ -79,28 +79,28 @@ public class ChessBoard implements java.util.Observer {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (gameStart == 0) {// ­è¶}©l½T©w­ş¤@¤è¬°Àu¥ı¤è
+						if (gameStart == 0) {// å‰›é–‹å§‹ç¢ºå®šå“ªä¸€æ–¹ç‚ºå„ªå…ˆæ–¹
 							game.isPlayer(((MyButton) button).getChess().getPlayer());
-							System.out.println(game.whoPlay().getName() + "Â½¥X¤F" + button.getName());
+							System.out.println(game.whoPlay().getName() + "ç¿»å‡ºäº†" + button.getName());
 							game.changePlayer();
 							((MyButton) button).getChess().setState(1);
-							System.out.println("ª±®aÃC¦â¤w½T©w");
+							System.out.println("ç©å®¶é¡è‰²å·²ç¢ºå®š");
 							button.setText(button.getName());
 							gameStart++;
-						} else if (((MyButton) button).getChess() == null && moveChess == null) {//¿ï¨ìªÅ¥Õ³B®ÉÄ²µo
-							System.out.println("½Ğ¿ï¿A´Ñ¤l");
+						} else if (((MyButton) button).getChess() == null && moveChess == null) {//é¸åˆ°ç©ºç™½è™•æ™‚è§¸ç™¼
+							System.out.println("è«‹é¸æ¾¤æ£‹å­");
 						} else if (((MyButton) button).getChess() != null
-								&& ((MyButton) button).getChess().getState() == 0 && moveChess == null) {//Â½´Ñ¤l
+								&& ((MyButton) button).getChess().getState() == 0 && moveChess == null) {//ç¿»æ£‹å­
 							button.setText(button.getName());
 							((MyButton) button).getChess().setState(1);
-							System.out.println(game.whoPlay().getName() + "Â½¥X¤F" + button.getName());
+							System.out.println(game.whoPlay().getName() + "ç¿»å‡ºäº†" + button.getName());
 							game.changePlayer();
 						} else if (moveChess == null && ((MyButton) button).getChess().getPlayer().toString()
-								.equals(game.whoPlay().toString())) {//¿ï¿A´Ñ¤l
-							System.out.println(game.whoPlay().getName() + "¿ï¾Ü¤F" + button.getName());
+								.equals(game.whoPlay().toString())) {//é¸æ¾¤æ£‹å­
+							System.out.println(game.whoPlay().getName() + "é¸æ“‡äº†" + button.getName());
 							moveChess = ((MyButton) button).getChess();
 
-						} else if (moveChess != null) {//²¾°Ê©Î¦Y´Ñ¤l
+						} else if (moveChess != null) {//ç§»å‹•æˆ–åƒæ£‹å­
 							int a = ((MyButton) button).getMyCoordinate().getX() - moveChess.getCoordinate().getX();
 							int b = ((MyButton) button).getMyCoordinate().getY() - moveChess.getCoordinate().getY();
 							if (((MyButton) button).getChess() == null
@@ -109,11 +109,11 @@ public class ChessBoard implements java.util.Observer {
 								button.setText(button.getName());
 								((MyButton) button).getChess().setState(1);
 							} else {
-								System.out.println("½Ğ­«·s¿ï¾Ü");
+								System.out.println("è«‹é‡æ–°é¸æ“‡");
 							}
 							moveChess = null;
 						} else {
-							System.out.println("½Ğ¿ï¾Ü¦Û¤vªº´Ñ¤l");
+							System.out.println("è«‹é¸æ“‡è‡ªå·±çš„æ£‹å­");
 						}
 
 					}
@@ -155,7 +155,7 @@ public class ChessBoard implements java.util.Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {//¨ê·s¤¶­±
+	public void update(Observable o, Object arg) {//åˆ·æ–°ä»‹é¢
 		game.changePlayer();
 		for (int i = 0; i < jButtons.length; i++) {
 			for (int j = 0; j < jButtons[i].length; j++) {
@@ -165,7 +165,7 @@ public class ChessBoard implements java.util.Observer {
 						if (((MyButton) jButtons[i][j]).getChess().getState() == 1) {
 							jButtons[i][j].setText(((MyButton) jButtons[i][j]).getName());
 						} else if (((MyButton) jButtons[i][j]).getChess().getState() == 0) {
-							jButtons[i][j].setText("ÂĞ»\¤¤");
+							jButtons[i][j].setText("è¦†è“‹ä¸­");
 						}
 						break;
 					} else {

@@ -47,7 +47,7 @@ public class Chess implements AbstractChet {
 		this.weight = w;
 	}
 
-	public void setState(int s) {// ª¬ºA 0:¥¼Â½ 1:¤wÂ½ 2:¦º¤`
+	public void setState(int s) {// ç‹€æ…‹ 0:æœªç¿» 1:å·²ç¿» 2:æ­»äº¡
 		this.state = s;
 	}
 
