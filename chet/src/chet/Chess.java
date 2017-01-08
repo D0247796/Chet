@@ -1,7 +1,13 @@
 package chet;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 interface AbstractChet {
-	public void setName(String name);
+	public void setPicture(File picture) ;
 
 	public void setPlayer(Player p);
 
@@ -11,7 +17,7 @@ interface AbstractChet {
 
 	public void setCoordinate(Coordinate c);
 
-	public String getName();
+	public ImageIcon getPicture();
 
 	public Player getPlayer();
 
@@ -23,20 +29,20 @@ interface AbstractChet {
 }
 
 public class Chess implements AbstractChet {
-	private String name;
+	private File picture;
 	private Player player;
 	private int weight;
 	private int state = 0;
 	private Coordinate c;
 
-	public Chess(String name, int weight, Player player) {
-		this.name = name;
+	public Chess(File picture, int weight, Player player) {
+		this.picture = picture;
 		this.player = player;
 		this.weight = weight;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPicture(File picture) {
+		this.picture = picture;
 	}
 
 	public void setPlayer(Player p) {
@@ -56,8 +62,13 @@ public class Chess implements AbstractChet {
 
 	}
 
-	public String getName() {
-		return name;
+	public ImageIcon getPicture() {
+		try {
+			return new ImageIcon(ImageIO.read(picture));
+		} catch (IOException e) {
+			System.out.println("棋子圖片讀取錯誤");
+			return null;
+		}
 	}
 
 	public Player getPlayer() {
