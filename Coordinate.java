@@ -1,6 +1,6 @@
 package chet;
 
-//ä½ç½®åº§æ¨™
+//¦ì¸m®y¼Ğ
 public class Coordinate {
 	private int x, y;
 
